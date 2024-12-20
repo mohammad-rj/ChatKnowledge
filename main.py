@@ -19,7 +19,7 @@ os.makedirs(output_folder, exist_ok=True)
 
 # محدودیت‌ها
 max_requests_per_minute = 15
-min_interval_between_requests = 5  # ثانیه
+min_interval_between_requests = 6  # ثانیه
 
 # خواندن اندیس فعلی
 if os.path.exists(index_file):
@@ -39,6 +39,17 @@ requests_sent = 0
 start_time = time.time()
 
 for idx, (file_path, _) in enumerate(file_info[start_index:], start=start_index):
+    print(f"idx {idx} ")
+
+    updated_path = file_path.replace("output", "output_summ")
+    if os.path.exists(updated_path):
+        print(f"File {updated_path} already processed. Skipping.")
+        # به‌روز کردن اندیس ذخیره شده
+        with open(index_file, "w") as f:
+            f.write(str(idx + 1))
+        continue
+
+
     # چاپ اندیس و نام فایل
     print(f"Processing Index: {idx}, File: {file_path}")
 
